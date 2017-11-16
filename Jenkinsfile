@@ -26,15 +26,10 @@ pipeline {
                 sh "docker push ktomi93/devops-pelda"
             }
         }
-        stage("Deploy to Staging") {
+        stage("Deploy to Production") {
             steps {
-                sh "docker run -d --rm -p 8765:8080 --name calculator ktomi93/devops-pelda"
+                sh "ansible-playbook playbook.yml -i inventory/production"
             }
-        }
-    }
-    post {
-        always {
-            sh "docker stop calculator"
         }
     }
 }
